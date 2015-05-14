@@ -23,10 +23,77 @@ struct TreeLinkNode {
   TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
 };
 
+//class Solution {
+//public:
+//    void connect(TreeLinkNode *root) {
+//    	if(root==NULL){
+//    		return;
+//    	}
+//    	int node_num = 0;
+//    	TreeLinkNode* lonelyChild;
+//    	recursive(root , node_num , lonelyChild);
+//    }
+//    void recursive(TreeLinkNode* root , int &node_num , TreeLinkNode* lonelyChild){
+//    	node_num++;
+//    	if((node_num%2==1) ){
+//    		if(issquare(node_num+1))
+//    			lonelyChild = NULL;
+//    		else
+//    			lonelyChild = root;
+//    	}
+//    	if(node_num%2==0 && lonelyChild!=NULL){
+//    		lonelyChild->next = root;
+//    	}
+//    	if(root->left != NULL && root->right !=NULL){
+//    		root->left->next = root->right;
+//    	}
+//    	if(root->left!=NULL){
+//    		recursive(root->left , node_num , lonelyChild);
+//    	}
+//    	if(root->right!=NULL){
+//    		recursive(root->right , node_num , lonelyChild);
+//    	}
+//    }
+//    bool issquare(int num){
+//    	int remainder = num%2;
+//    	while(remainder==0&&num!=1){
+//    		num/=2;
+//    		remainder = num%2;
+//    	}
+//    	if(num==1)
+//    		return true;
+//    	else
+//    		return false;
+//    }
+//};
+
 class Solution {
 public:
     void connect(TreeLinkNode *root) {
+    	if(root==NULL)
+    		return;
+    	recursive(root);
+    	return;
+    }
 
+    void recursive(TreeLinkNode* firstNode){
+    	TreeLinkNode* lonelyNode = NULL;
+    	TreeLinkNode* nextFirstNode = firstNode->left;
+    	while(firstNode!=NULL){
+    		if(lonelyNode!=NULL && firstNode->left!=NULL){
+    			lonelyNode->next = firstNode->left;
+    		}
+    		if(firstNode->left!=NULL){
+    			firstNode->left->next = firstNode->right;
+    			lonelyNode = firstNode->right;
+    		}
+    		firstNode = firstNode->next;
+    	}
+    	if(nextFirstNode!=NULL){
+    		recursive(nextFirstNode);
+    	}
+    	else
+    		return;
     }
 };
 
